@@ -13,14 +13,15 @@ trait Read
     /**
      * Find and retrieve an entry in the database or fail.
      *
-     * @param  [int] The id of the row in the db to fetch.
+     * @param  [int] $id The id of the row in the db to fetch.
+     * @param  [bool] $withFakes Return rerult with fake fields?
      *
      * @return [Eloquent Collection] The row in the db.
      */
-    public function getEntry($id)
+    public function getEntry($id, $withFakes = true)
     {
-        if (! $this->entry) {
-            $this->entry = $this->model->findOrFail($id);
+        $this->entry = $this->model->findOrFail($id);
+        if ($withFakes === true) {
             $this->entry = $this->entry->withFakes();
         }
 
